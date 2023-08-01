@@ -1,0 +1,32 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Points board | GUDLFT Registration</title>
+</head>
+
+<body>
+    <h2>Here to <a href="{{url_for('logout')}}">Logout</a></h2>
+    <hr />
+    <table style="border: 1px solid #333;">
+        <thead style="background-color: #333;
+        color: #fff;">
+            <tr>
+                <th colspan="2">The table header</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for club in clubs%}
+            <tr>
+                <td style="border: 1px solid #333;">{{club.name}}</td>
+                <td style="border: 1px solid #333;">{{club.points}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+
+
+</body>
+
+</html>
