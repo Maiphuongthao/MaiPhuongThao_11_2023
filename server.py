@@ -13,10 +13,10 @@ def loadClubs():
 def loadCompetitions():
     with open('competitions.json') as comps:
         listOfCompetitions = json.load(comps)['competitions']
-        date_format = "%Y/%m/%d %H:%M:%S"
+        date_format = "%Y-%m-%d %H:%M:%S"
         for competition in listOfCompetitions:
             competition['date']= datetime.datetime.strptime(competition['date'], date_format)
-            if competition['date'] < datetime.datetime.now:
+            if competition['date'] < datetime.datetime.now():
                 competition['is_passed'] = True
             else:
                 competition['is_passed'] = False
@@ -77,6 +77,9 @@ def purchasePlaces():
 
 
 # TODO: Add route for points display
+@app.route('/points', methods= ['GET'])
+def display():
+    return render_template('points.html', clubs=clubs, competitions=competitions)
 
 
 @app.route('/logout')
