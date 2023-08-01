@@ -1,4 +1,5 @@
 import json
+import datetime
 from flask import Flask,render_template,request,redirect,flash,url_for
 
 MAX_BOOKABLE_PLACES = 12 
@@ -12,6 +13,13 @@ def loadClubs():
 def loadCompetitions():
     with open('competitions.json') as comps:
         listOfCompetitions = json.load(comps)['competitions']
+        date_format = "%Y/%m/%d %H:%M:%S"
+        for competition in listOfCompetitions:
+            competition['date']= datetime.datetime.strptime(competition['date'], date_format)
+            if competition['date'] < datetime.datetime.now:
+                competition['is_passed'] = True
+            else:
+                competition['is_passed'] = False
         return listOfCompetitions
 
 
@@ -51,17 +59,20 @@ def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     placesRequired = int(request.form['places'])
-
-    if placesRequired > MAX_BOOKABLE_PLACES:
-        flash("Try again - You cannot book more than 12 places. ")
-        return render_template('booking.html', club=club, competition=competition)
-    elif placesRequired > int(club["points"]):
-        flash("Try again - your points is less than what you book. ")
-        return render_template('booking.html', club=club, competition=competition)
-    else:
-        flash('Great-booking complete!')
-        competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
+    if competition['is_passed']==True:
+        flash("Sorry- You can not book a passed competition.")
         return render_template('welcome.html', club=club, competitions=competitions)
+    else:
+        if placesRequired > MAX_BOOKABLE_PLACES:
+            flash("Try again - You cannot book more than 12 places. ")
+            return render_template('booking.html', club=club, competition=competition)
+        elif placesRequired > int(club["points"]):
+            flash("Try again - your points is less than what you book. ")
+            return render_template('booking.html', club=club, competition=competition)
+        else:
+            flash('Great-booking complete!')
+            competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
+            return render_template('welcome.html', club=club, competitions=competitions)
 
 
 # TODO: Add route for points display
