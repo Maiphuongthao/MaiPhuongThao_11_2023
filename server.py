@@ -4,14 +4,14 @@ from flask import Flask,render_template,request,redirect,flash,url_for
 
 MAX_BOOKABLE_PLACES = 12 
 
-def loadClubs():
-    with open('clubs.json') as c:
+def loadClubs(cl):
+    with open(cl) as c:
         listOfClubs = json.load(c)['clubs']
         return listOfClubs
 
 
-def loadCompetitions():
-    with open('competitions.json') as comps:
+def loadCompetitions(c):
+    with open(c) as comps:
         listOfCompetitions = json.load(comps)['competitions']
         date_format = "%Y-%m-%d %H:%M:%S"
         for competition in listOfCompetitions:
@@ -26,8 +26,8 @@ def loadCompetitions():
 app = Flask(__name__)
 app.secret_key = 'something_special'
 
-competitions = loadCompetitions()
-clubs = loadClubs()
+competitions = loadCompetitions('competitions.json')
+clubs = loadClubs('clubs.json')
 
 @app.route('/')
 def index():
