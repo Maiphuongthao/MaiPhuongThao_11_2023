@@ -1,0 +1,19 @@
+{
+    "competitions": [
+        {
+            "name": "Past competition",
+            "date": "2022-03-27 10:00:00",
+            "numberOfPlaces": "10"
+        },
+        {
+            "name": "Future competition",
+            "date": "2024-10-22 13:30:00",
+            "numberOfPlaces": "8"
+        },
+        {
+            "name": "Future ahead competition",
+            "date": "2030-10-22 13:30:00",
+            "numberOfPlaces": "50"
+        }
+    ]
+}
