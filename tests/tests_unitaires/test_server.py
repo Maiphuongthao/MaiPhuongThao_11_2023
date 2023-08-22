@@ -11,7 +11,7 @@ class TestData:
                 {
         "name":"Test club 1",
         "email":"test1@test.com",
-        "points":"11"
+        "points":"10"
     },
     {
         "name":"Zero test club 0",
@@ -84,7 +84,6 @@ class TestPurchase:
         places = 1
         data = {"competition":futureCompetition['name'], "club":club1['name'], "places":places}
         response = client.post('/purchasePlaces', data = data)
-        print(f"res ==== {data}")
         assert response.status_code == 200
 
     def test_valid_booking_update_club_points(self, client, club1, futureCompetition):
@@ -93,7 +92,7 @@ class TestPurchase:
         data = {"competition":futureCompetition['name'], "club":club1['name'], "places":places}
         response = client.post('/purchasePlaces', data = data)
         assert response.status_code == 200
-        assert 'Points available: 10' in response.data.decode('utf-8')
+        assert 'Points available: 9' in response.data.decode('utf-8')
 
     def test_not_enough_point_to_book(self, client, club2, futureCompetition):
         places = int(club2["points"]) + 1
